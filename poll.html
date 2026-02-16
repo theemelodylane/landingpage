@@ -458,8 +458,11 @@
             div.style.pointerEvents = 'none';
             const success = await submitVote(index);
             if (success || hasVoted()) {
-              const newResults = await fetchResults();
-              renderPoll(newResults);
+              // Small delay for KV consistency, then refresh
+              setTimeout(async () => {
+                const newResults = await fetchResults();
+                renderPoll(newResults);
+              }, 300);
             } else {
               div.style.pointerEvents = '';
             }
