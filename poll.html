@@ -3,8 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Melody Lane Poll</title>
+  <title>Melody Lane Poll 🏈 | Cleveland Browns Stadium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-gradient-start: #1a1a2e;
+      --bg-gradient-mid: #16213e;
+      --bg-gradient-end: #0f3460;
+      --accent-pink: #ff006e;
+      --accent-pink-light: #ff99c8;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -12,69 +27,94 @@
     }
 
     body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
       min-height: 100vh;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      font-family: Georgia, serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      color: var(--text-primary);
+      line-height: 1.6;
     }
 
-    .poll-container {
-      background: rgba(26, 26, 46, 0.95);
-      border: 2px solid #ff006e;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 10px 40px rgba(255, 0, 110, 0.3);
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* Back Link */
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: var(--accent-pink-light);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-pink);
+    }
+
+    .back-link::before {
+      content: '← ';
+    }
+
+    /* Poll Container */
+    .poll-wrapper {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
     }
 
     .poll-header {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
 
-    .poll-header h2 {
-      color: #ff006e;
-      font-size: 1.8em;
-      text-shadow: 2px 2px 4px rgba(255, 0, 110, 0.5);
+    .poll-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--accent-pink);
+      text-shadow: 2px 2px 20px rgba(255, 0, 110, 0.5);
       margin-bottom: 10px;
     }
 
     .poll-header p {
-      color: #ff99c8;
+      color: var(--accent-pink-light);
       font-style: italic;
-      font-size: 0.95em;
+      font-size: 1.1rem;
     }
 
+    /* Poll Options */
     .poll-options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
+      margin-bottom: 25px;
     }
 
     .poll-option {
       position: relative;
-      background: rgba(255, 0, 110, 0.1);
-      border: 2px solid #ff006e;
-      border-radius: 10px;
-      padding: 15px 20px;
+      background: rgba(255, 0, 110, 0.08);
+      border: 2px solid var(--accent-pink);
+      border-radius: 15px;
+      padding: 20px 25px;
       cursor: pointer;
       transition: all 0.3s ease;
       overflow: hidden;
     }
 
     .poll-option:hover:not(.voted):not(.disabled) {
-      background: rgba(255, 0, 110, 0.2);
-      transform: translateX(5px);
-      box-shadow: 0 5px 20px rgba(255, 0, 110, 0.3);
+      background: rgba(255, 0, 110, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 0, 110, 0.3);
     }
 
     .poll-option.disabled {
       cursor: not-allowed;
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .poll-option.voted {
@@ -91,15 +131,15 @@
     }
 
     .option-text {
-      color: #fff;
-      font-size: 1.1em;
+      color: var(--text-primary);
+      font-size: 1.2rem;
       font-weight: 500;
     }
 
     .option-percent {
-      color: #ff99c8;
+      color: var(--accent-pink-light);
       font-weight: bold;
-      font-size: 1.2em;
+      font-size: 1.3rem;
     }
 
     .option-bar {
@@ -107,40 +147,97 @@
       top: 0;
       left: 0;
       height: 100%;
-      background: linear-gradient(90deg, #ff006e 0%, #ff4da6 100%);
-      opacity: 0.3;
+      background: linear-gradient(90deg, var(--accent-pink) 0%, #ff4da6 100%);
+      opacity: 0.25;
       transition: width 0.5s ease;
       z-index: 1;
+      border-radius: 13px;
     }
 
     .poll-option.voted .option-bar {
       background: linear-gradient(90deg, #00ff88 0%, #66ffaa 100%);
+      opacity: 0.3;
     }
 
     .poll-footer {
-      margin-top: 20px;
       text-align: center;
-      color: #ff99c8;
-      font-size: 0.9em;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      padding-top: 15px;
+      border-top: 1px solid var(--glass-border);
     }
 
     .poll-footer .total-votes {
-      color: #ff006e;
+      color: var(--accent-pink);
       font-weight: bold;
+      font-size: 1.2rem;
     }
 
+    /* Divider */
+    .divider {
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+      margin: 40px auto;
+    }
+
+    /* Telegram Section (matches landing page) */
+    .telegram-section {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 50px 40px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .telegram-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--accent-pink);
+      margin-bottom: 15px;
+    }
+
+    .telegram-section p {
+      color: var(--text-secondary);
+      margin-bottom: 25px;
+      font-size: 1.05rem;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .telegram-btn {
+      display: inline-block;
+      background: var(--accent-pink);
+      color: white;
+      padding: 16px 35px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .telegram-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 25px rgba(255, 0, 110, 0.5);
+    }
+
+    /* Vote notification */
     .vote-message {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: rgba(0, 255, 136, 0.9);
+      background: rgba(0, 255, 136, 0.95);
       color: #1a1a2e;
-      padding: 15px 25px;
-      border-radius: 10px;
-      font-weight: bold;
-      transform: translateX(400px);
-      transition: transform 0.3s ease;
+      padding: 18px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      transform: translateX(450px);
+      transition: transform 0.4s ease;
       z-index: 1000;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
 
     .vote-message.show {
@@ -148,48 +245,91 @@
     }
 
     .vote-message.error {
-      background: rgba(255, 0, 110, 0.9);
+      background: rgba(255, 0, 110, 0.95);
       color: #fff;
     }
 
+    /* Loading */
     .loading {
       text-align: center;
-      color: #ff99c8;
-      padding: 20px;
+      color: var(--accent-pink-light);
+      padding: 40px;
     }
 
     .spinner {
       display: inline-block;
-      width: 30px;
-      height: 30px;
-      border: 3px solid #ff006e;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--accent-pink);
       border-radius: 50%;
       border-top-color: transparent;
       animation: spin 1s linear infinite;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      .poll-wrapper {
+        padding: 25px;
+      }
+
+      .poll-header h1 {
+        font-size: 1.7rem;
+      }
+
+      .option-text {
+        font-size: 1.05rem;
+      }
+
+      .telegram-section {
+        padding: 35px 25px;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <!-- Back Link -->
+    <a href="index.html" class="back-link">Back to Home</a>
 
-  <!-- Poll Component -->
-  <div class="poll-container" id="pollContainer">
-    <div class="poll-header">
-      <h2 id="pollTitle">Loading Poll...</h2>
-      <p id="pollDescription">Cast your vote below</p>
-    </div>
-    <div class="poll-options" id="pollOptions">
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Loading poll options...</p>
+    <!-- Poll -->
+    <div class="poll-wrapper">
+      <div class="poll-header">
+        <h1 id="pollTitle">Loading Poll...</h1>
+        <p id="pollDescription">Cast your vote below</p>
+      </div>
+      
+      <div class="poll-options" id="pollOptions">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading poll options...</p>
+        </div>
+      </div>
+      
+      <div class="poll-footer">
+        <span class="total-votes" id="totalVotes">0</span> total votes
       </div>
     </div>
-    <div class="poll-footer">
-      <span class="total-votes" id="totalVotes">0</span> total votes
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Telegram CTA (matches landing page) -->
+    <div class="telegram-section">
+      <h3>💌 Get The Inside Scoop</h3>
+      <p>
+        Want exclusive updates, early access to reviews, and direct messages? 
+        My Telegram bot is where I share things that don't make it to the main feeds.
+      </p>
+      <a href="https://t.me/theemelodylanebot?start=poll" class="telegram-btn" target="_blank" rel="noopener">Chat with Me 💬</a>
     </div>
   </div>
 
@@ -198,29 +338,21 @@
 
   <script>
     // ============================================
-    // CONFIGURE YOUR POLL HERE
+    // POLL CONFIGURATION
     // ============================================
     const POLL_CONFIG = {
-      // Your Cloudflare Worker URL
       workerUrl: "https://melodypolls.legosandjoysticks.workers.dev",
-
-      // Unique ID for this poll
       pollId: "browns-stadium-001",
-
-      // Poll title and description
       title: "New Renderings of Cleveland Browns Stadium 🏈",
       description: "What do you think of the new dome stadium plans?",
-
-      // Poll options
       options: [
         "❤️ Love it",
         "😤 Hate it",
         "🌊 Stay by the lake"
       ]
     };
-    // ============================================
 
-    // Get or create unique user ID for this browser
+    // Get or create unique user ID
     function getUserId() {
       let userId = localStorage.getItem(`poll_user_${POLL_CONFIG.pollId}`);
       if (!userId) {
@@ -230,7 +362,6 @@
       return userId;
     }
 
-    // Check if user already voted
     function hasVoted() {
       return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`) !== null;
     }
@@ -243,31 +374,26 @@
       localStorage.setItem(`poll_voted_${POLL_CONFIG.pollId}`, optionIndex);
     }
 
-    // Show message to user
     function showMessage(text, isError = false) {
       const msg = document.getElementById('voteMessage');
       msg.textContent = text;
       msg.className = 'vote-message' + (isError ? ' error' : '') + ' show';
-      setTimeout(() => {
-        msg.classList.remove('show');
-      }, 3000);
+      setTimeout(() => msg.classList.remove('show'), 3000);
     }
 
-    // Fetch current results
     async function fetchResults() {
       try {
         const response = await fetch(
           `${POLL_CONFIG.workerUrl}/results?pollId=${POLL_CONFIG.pollId}`
         );
-        if (!response.ok) throw new Error('Failed to fetch results');
+        if (!response.ok) throw new Error('Failed to fetch');
         return await response.json();
       } catch (err) {
-        console.error('Error fetching results:', err);
+        console.error('Error:', err);
         return null;
       }
     }
 
-    // Submit vote
     async function submitVote(optionIndex) {
       try {
         const response = await fetch(`${POLL_CONFIG.workerUrl}/vote`, {
@@ -293,13 +419,11 @@
         showMessage('Vote recorded! Thanks babes 💋');
         return true;
       } catch (err) {
-        console.error('Error voting:', err);
         showMessage('Something went wrong, try again!', true);
         return false;
       }
     }
 
-    // Render poll with results
     function renderPoll(results) {
       document.getElementById('pollTitle').textContent = POLL_CONFIG.title;
       document.getElementById('pollDescription').textContent = POLL_CONFIG.description;
@@ -322,7 +446,7 @@
         div.className = 'poll-option' + (isVoted ? ' voted' : '') + (hasAnyVote ? ' disabled' : '');
         
         div.innerHTML = `
-          <div class="option-bar" style="width: ${percent}%"></div>
+          <div class="option-bar" style="width: ${hasAnyVote ? percent : 0}%"></div>
           <div class="option-content">
             <span class="option-text">${option}</span>
             <span class="option-percent">${hasAnyVote ? percent + '%' : ''}</span>
@@ -346,12 +470,11 @@
       });
     }
 
-    // Initialize poll
     async function init() {
       const results = await fetchResults();
       renderPoll(results);
 
-      // Refresh results every 10 seconds if user hasn't voted
+      // Refresh every 10 seconds if not voted
       setInterval(async () => {
         if (!hasVoted()) {
           const freshResults = await fetchResults();
@@ -360,9 +483,7 @@
       }, 10000);
     }
 
-    // Start
     init();
   </script>
-
 </body>
 </html>
