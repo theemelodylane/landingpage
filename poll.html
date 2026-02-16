@@ -429,27 +429,29 @@
       document.getElementById('pollDescription').textContent = POLL_CONFIG.description;
 
       const total = results ? results.totalVotes : 0;
-      document.getElementById('totalVotes').textContent = total.toLocaleString();
+      const votedOption = hasVoted() ? parseInt(getVotedOption()) : null;
+      const hasAnyVote = votedOption !== null;
+
+      // Only show total votes if user has voted
+      document.getElementById('totalVotes').textContent = hasAnyVote ? total.toLocaleString() : '?';
 
       const container = document.getElementById('pollOptions');
       container.innerHTML = '';
-
-      const votedOption = hasVoted() ? parseInt(getVotedOption()) : null;
 
       POLL_CONFIG.options.forEach((option, index) => {
         const count = results && results.results[index] ? results.results[index] : 0;
         const percent = total > 0 ? Math.round((count / total) * 100) : 0;
         const isVoted = votedOption === index;
-        const hasAnyVote = votedOption !== null;
 
         const div = document.createElement('div');
         div.className = 'poll-option' + (isVoted ? ' voted' : '') + (hasAnyVote ? ' disabled' : '');
         
+        // Only show bar and percentage if user has voted
         div.innerHTML = `
-          <div class="option-bar" style="width: ${hasAnyVote ? percent : 0}%"></div>
+          <div class="option-bar" style="width: ${hasAnyVote ? percent : 0}%; opacity: ${hasAnyVote ? 0.25 : 0}"></div>
           <div class="option-content">
             <span class="option-text">${option}</span>
-            <span class="option-percent">${hasAnyVote ? percent + '%' : ''}</span>
+            <span class="option-percent">${hasAnyVote ? percent + '%' : 'Vote to see results'}</span>
           </div>
         `;
 
