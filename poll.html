@@ -457,12 +457,14 @@
           div.addEventListener('click', async () => {
             div.style.pointerEvents = 'none';
             const success = await submitVote(index);
-            if (success || hasVoted()) {
-              // Small delay for KV consistency, then refresh
-              setTimeout(async () => {
-                const newResults = await fetchResults();
-                renderPoll(newResults);
-              }, 300);
+            if (success) {
+              // Refresh page to show updated results
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            } else if (hasVoted()) {
+              // Already voted, just refresh
+              window.location.reload();
             } else {
               div.style.pointerEvents = '';
             }
