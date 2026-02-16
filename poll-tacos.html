@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melody Lane Poll 🌮 | Best Tacos in Cleveland</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #1a1a2e;
+      --bg-gradient-mid: #16213e;
+      --bg-gradient-end: #0f3460;
+      --accent-pink: #ff006e;
+      --accent-pink-light: #ff99c8;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+      min-height: 100vh;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: var(--accent-pink-light);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-pink);
+    }
+
+    .back-link::before {
+      content: '← ';
+    }
+
+    .poll-wrapper {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+    }
+
+    .poll-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .poll-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--accent-pink);
+      text-shadow: 2px 2px 20px rgba(255, 0, 110, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .poll-header p {
+      color: var(--accent-pink-light);
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .poll-option {
+      position: relative;
+      background: rgba(255, 0, 110, 0.08);
+      border: 2px solid var(--accent-pink);
+      border-radius: 15px;
+      padding: 20px 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .poll-option:hover:not(.voted):not(.disabled) {
+      background: rgba(255, 0, 110, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 0, 110, 0.3);
+    }
+
+    .poll-option.disabled {
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+
+    .poll-option.voted {
+      border-color: #00ff88;
+      background: rgba(0, 255, 136, 0.1);
+    }
+
+    .option-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option-text {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .option-percent {
+      color: var(--accent-pink-light);
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .option-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-pink) 0%, #ff4da6 100%);
+      opacity: 0.25;
+      transition: width 0.5s ease;
+      z-index: 1;
+      border-radius: 13px;
+    }
+
+    .poll-option.voted .option-bar {
+      background: linear-gradient(90deg, #00ff88 0%, #66ffaa 100%);
+      opacity: 0.3;
+    }
+
+    .poll-footer {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      padding-top: 15px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .poll-footer .total-votes {
+      color: var(--accent-pink);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .divider {
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+      margin: 40px auto;
+    }
+
+    .telegram-section {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 50px 40px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .telegram-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--accent-pink);
+      margin-bottom: 15px;
+    }
+
+    .telegram-section p {
+      color: var(--text-secondary);
+      margin-bottom: 25px;
+      font-size: 1.05rem;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .telegram-btn {
+      display: inline-block;
+      background: var(--accent-pink);
+      color: white;
+      padding: 16px 35px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .telegram-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 25px rgba(255, 0, 110, 0.5);
+    }
+
+    .vote-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 255, 136, 0.95);
+      color: #1a1a2e;
+      padding: 18px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      transform: translateX(450px);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .vote-message.show {
+      transform: translateX(0);
+    }
+
+    .vote-message.error {
+      background: rgba(255, 0, 110, 0.95);
+      color: #fff;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--accent-pink-light);
+      padding: 40px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--accent-pink);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      .poll-wrapper {
+        padding: 25px;
+      }
+
+      .poll-header h1 {
+        font-size: 1.7rem;
+      }
+
+      .option-text {
+        font-size: 1.05rem;
+      }
+
+      .telegram-section {
+        padding: 35px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">Back to Home</a>
+
+    <div class="poll-wrapper">
+      <div class="poll-header">
+        <h1 id="pollTitle">Loading Poll...</h1>
+        <p id="pollDescription">Cast your vote below</p>
+      </div>
+      
+      <div class="poll-options" id="pollOptions">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading poll options...</p>
+        </div>
+      </div>
+      
+      <div class="poll-footer">
+        <span class="total-votes" id="totalVotes">0</span> total votes
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="telegram-section">
+      <h3>💌 Get The Inside Scoop</h3>
+      <p>
+        Want exclusive updates, early access to reviews, and direct messages? 
+        My Telegram bot is where I share things that don't make it to the main feeds.
+      </p>
+      <a href="https://t.me/theemelodylanebot?start=poll" class="telegram-btn" target="_blank" rel="noopener">Chat with Me 💬</a>
+    </div>
+  </div>
+
+  <div class="vote-message" id="voteMessage"></div>
+
+  <script>
+    const POLL_CONFIG = {
+      workerUrl: "https://api.theemelodylane.com",
+      pollId: "cleveland-tacos-001",
+      title: "Which of these places have the best tacos in Cleveland? 🌮",
+      description: "I need to know where to go!",
+      options: [
+        "🌮 Blue Agave Street Tacos & Margaritas",
+        "🌶️ Blue Habanero - Street Tacos & Tequila",
+        "🐷 Federales Street Tacos",
+        "🐷 Flying Pig Tacos"
+      ]
+    };
+
+    function getUserId() {
+      let userId = localStorage.getItem(`poll_user_${POLL_CONFIG.pollId}`);
+      if (!userId) {
+        userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        localStorage.setItem(`poll_user_${POLL_CONFIG.pollId}`, userId);
+      }
+      return userId;
+    }
+
+    function hasVoted() {
+      return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`) !== null;
+    }
+
+    function getVotedOption() {
+      return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`);
+    }
+
+    function markAsVoted(optionIndex) {
+      localStorage.setItem(`poll_voted_${POLL_CONFIG.pollId}`, optionIndex);
+    }
+
+    function showMessage(text, isError = false) {
+      const msg = document.getElementById('voteMessage');
+      msg.textContent = text;
+      msg.className = 'vote-message' + (isError ? ' error' : '') + ' show';
+      setTimeout(() => msg.classList.remove('show'), 3000);
+    }
+
+    async function fetchResults() {
+      try {
+        const response = await fetch(
+          `${POLL_CONFIG.workerUrl}/results?pollId=${POLL_CONFIG.pollId}`
+        );
+        if (!response.ok) throw new Error('Failed to fetch');
+        return await response.json();
+      } catch (err) {
+        console.error('Error:', err);
+        return null;
+      }
+    }
+
+    async function submitVote(optionIndex) {
+      try {
+        const response = await fetch(`${POLL_CONFIG.workerUrl}/vote`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pollId: POLL_CONFIG.pollId,
+            optionIndex: optionIndex,
+            userId: getUserId()
+          })
+        });
+
+        if (response.status === 409) {
+          const data = await response.json();
+          showMessage('You already voted! 💕', true);
+          markAsVoted(data.previousVote);
+          return false;
+        }
+
+        if (!response.ok) throw new Error('Vote failed');
+        
+        markAsVoted(optionIndex);
+        showMessage('Vote recorded! Thanks babes 💋');
+        return true;
+      } catch (err) {
+        showMessage('Something went wrong, try again!', true);
+        return false;
+      }
+    }
+
+    function renderPoll(results) {
+      document.getElementById('pollTitle').textContent = POLL_CONFIG.title;
+      document.getElementById('pollDescription').textContent = POLL_CONFIG.description;
+
+      const total = results ? results.totalVotes : 0;
+      document.getElementById('totalVotes').textContent = total.toLocaleString();
+
+      const container = document.getElementById('pollOptions');
+      container.innerHTML = '';
+
+      const votedOption = hasVoted() ? parseInt(getVotedOption()) : null;
+
+      POLL_CONFIG.options.forEach((option, index) => {
+        const count = results && results.results[index] ? results.results[index] : 0;
+        const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+        const isVoted = votedOption === index;
+        const hasAnyVote = votedOption !== null;
+
+        const div = document.createElement('div');
+        div.className = 'poll-option' + (isVoted ? ' voted' : '') + (hasAnyVote ? ' disabled' : '');
+        
+        div.innerHTML = `
+          <div class="option-bar" style="width: ${hasAnyVote ? percent : 0}%"></div>
+          <div class="option-content">
+            <span class="option-text">${option}</span>
+            <span class="option-percent">${hasAnyVote ? percent + '%' : ''}</span>
+          </div>
+        `;
+
+        if (!hasAnyVote) {
+          div.addEventListener('click', async () => {
+            div.style.pointerEvents = 'none';
+            const success = await submitVote(index);
+            if (success) {
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            } else if (hasVoted()) {
+              window.location.reload();
+            } else {
+              div.style.pointerEvents = '';
+            }
+          });
+        }
+
+        container.appendChild(div);
+      });
+    }
+
+    async function init() {
+      const results = await fetchResults();
+      renderPoll(results);
+
+      setInterval(async () => {
+        if (!hasVoted()) {
+          const freshResults = await fetchResults();
+          renderPoll(freshResults);
+        }
+      }, 10000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
