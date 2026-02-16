@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melody Lane 🌶️ | Horror Reviews & More</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-mid: #16213e;
+            --bg-gradient-end: #0f3460;
+            --accent-pink: #ff006e;
+            --accent-pink-light: #ff99c8;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 0, 110, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-image-container {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-pink);
+            box-shadow: 0 0 40px rgba(255, 0, 110, 0.4), 0 10px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(255, 0, 110, 0.6), 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 20px rgba(255, 0, 110, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .tagline {
+            font-size: 1.2rem;
+            color: var(--accent-pink-light);
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CTA Buttons */
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
+            display: block;
+            padding: 18px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, #ff4081 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 0, 110, 0.4);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 0, 110, 0.6);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-pink);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 0, 110, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-pink);
+        }
+
+        .divider {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+            margin: 30px auto;
+        }
+
+        /* Social Links Grid */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .social-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .social-card:hover {
+            background: rgba(255, 0, 110, 0.1);
+            border-color: var(--accent-pink);
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .social-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .social-handle {
+            font-size: 0.85rem;
+            color: var(--accent-pink-light);
+        }
+
+        /* Telegram Section */
+        .telegram-section {
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-pink);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .telegram-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-pink);
+        }
+
+        .telegram-section p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .telegram-btn {
+            display: inline-block;
+            background: var(--accent-pink);
+            color: white;
+            padding: 16px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(255, 0, 110, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-image-container {
+                width: 220px;
+                height: 220px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .social-card {
+                padding: 20px 10px;
+            }
+
+            .social-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero > * {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero > *:nth-child(4) { animation-delay: 0.4s; }
+        .hero > *:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-image-container">
+            <img src="images/melody-profile.jpg" alt="Melody Lane" class="hero-image">
+        </div>
+        <h1>Melody Lane</h1>
+        <p class="tagline">CLE born & raised. Sports fanatic. Horror movie lover. Music enthusiast. Let's chat!</p>
+        <p class="hero-description">
+            Subscribe for exclusive content you won't find anywhere else. 
+            Spoiler-free reviews, hot takes, and a peek behind the curtain.
+        </p>
+        <div class="cta-container">
+            <a href="https://t.me/theemelodylanebot?start=landing" class="cta-button cta-primary">💬 Message Me on Telegram</a>
+            <a href="https://www.youtube.com/@TheeMelodyLane" class="cta-button cta-secondary">🎬 Watch on YouTube</a>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Social Links Section -->
+    <section class="section">
+        <h2 class="section-title">Find Me Everywhere</h2>
+        <div class="social-grid">
+            <a href="https://www.youtube.com/@TheeMelodyLane" class="social-card">
+                <div class="social-icon">🎬</div>
+                <div class="social-name">YouTube</div>
+                <div class="social-handle">@TheeMelodyLane</div>
+            </a>
+            <a href="https://www.instagram.com/theemelodylane/" class="social-card">
+                <div class="social-icon">📸</div>
+                <div class="social-name">Instagram</div>
+                <div class="social-handle">@theemelodylane</div>
+            </a>
+            <a href="https://x.com/Theemelodylane" class="social-card">
+                <div class="social-icon">🐦</div>
+                <div class="social-name">Twitter/X</div>
+                <div class="social-handle">@Theemelodylane</div>
+            </a>
+            <a href="https://www.threads.com/@theemelodylane" class="social-card">
+                <div class="social-icon">🧵</div>
+                <div class="social-name">Threads</div>
+                <div class="social-handle">@theemelodylane</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Telegram CTA Section -->
+    <section class="section">
+        <div class="telegram-section">
+            <h3>💌 Get The Inside Scoop</h3>
+            <p>
+                Want exclusive updates, early access to reviews, and direct messages? 
+                My Telegram bot is where I share things that don't make it to the main feeds.
+            </p>
+            <a href="https://t.me/theemelodylanebot?start=landing" class="telegram-btn">Chat with Me 💬</a>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Melody Lane. Horror, cats, and chaos. 🔪🐱</p>
+        <p style="margin-top: 15px; font-size: 0.85rem; color: var(--accent-pink-light);">
+            <a href="https://t.me/theemelodylanebot" style="color: var(--accent-pink-light);">Telegram</a> • 
+            <a href="https://www.youtube.com/@TheeMelodyLane" style="color: var(--accent-pink-light);">YouTube</a>
+        </p>
+    </footer>
+
+    <!-- Simple Analytics -->
+    <script>
+        console.log('🌶️ Melody Lane landing page loaded');
+    </script>
+</body>
+</html>
