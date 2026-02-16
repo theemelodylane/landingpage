@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melody Lane Poll</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: Georgia, serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .poll-container {
+      background: rgba(26, 26, 46, 0.95);
+      border: 2px solid #ff006e;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(255, 0, 110, 0.3);
+    }
+
+    .poll-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .poll-header h2 {
+      color: #ff006e;
+      font-size: 1.8em;
+      text-shadow: 2px 2px 4px rgba(255, 0, 110, 0.5);
+      margin-bottom: 10px;
+    }
+
+    .poll-header p {
+      color: #ff99c8;
+      font-style: italic;
+      font-size: 0.95em;
+    }
+
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .poll-option {
+      position: relative;
+      background: rgba(255, 0, 110, 0.1);
+      border: 2px solid #ff006e;
+      border-radius: 10px;
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .poll-option:hover:not(.voted):not(.disabled) {
+      background: rgba(255, 0, 110, 0.2);
+      transform: translateX(5px);
+      box-shadow: 0 5px 20px rgba(255, 0, 110, 0.3);
+    }
+
+    .poll-option.disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    .poll-option.voted {
+      border-color: #00ff88;
+      background: rgba(0, 255, 136, 0.1);
+    }
+
+    .option-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option-text {
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+
+    .option-percent {
+      color: #ff99c8;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .option-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #ff006e 0%, #ff4da6 100%);
+      opacity: 0.3;
+      transition: width 0.5s ease;
+      z-index: 1;
+    }
+
+    .poll-option.voted .option-bar {
+      background: linear-gradient(90deg, #00ff88 0%, #66ffaa 100%);
+    }
+
+    .poll-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #ff99c8;
+      font-size: 0.9em;
+    }
+
+    .poll-footer .total-votes {
+      color: #ff006e;
+      font-weight: bold;
+    }
+
+    .vote-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 255, 136, 0.9);
+      color: #1a1a2e;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .vote-message.show {
+      transform: translateX(0);
+    }
+
+    .vote-message.error {
+      background: rgba(255, 0, 110, 0.9);
+      color: #fff;
+    }
+
+    .loading {
+      text-align: center;
+      color: #ff99c8;
+      padding: 20px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid #ff006e;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Poll Component -->
+  <div class="poll-container" id="pollContainer">
+    <div class="poll-header">
+      <h2 id="pollTitle">Loading Poll...</h2>
+      <p id="pollDescription">Cast your vote below</p>
+    </div>
+    <div class="poll-options" id="pollOptions">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading poll options...</p>
+      </div>
+    </div>
+    <div class="poll-footer">
+      <span class="total-votes" id="totalVotes">0</span> total votes
+    </div>
+  </div>
+
+  <!-- Vote notification -->
+  <div class="vote-message" id="voteMessage"></div>
+
+  <script>
+    // ============================================
+    // CONFIGURE YOUR POLL HERE
+    // ============================================
+    const POLL_CONFIG = {
+      // Your Cloudflare Worker URL
+      workerUrl: "https://melodypolls.legosandjoysticks.workers.dev",
+
+      // Unique ID for this poll
+      pollId: "browns-stadium-001",
+
+      // Poll title and description
+      title: "New Renderings of Cleveland Browns Stadium 🏈",
+      description: "What do you think of the new dome stadium plans?",
+
+      // Poll options
+      options: [
+        "❤️ Love it",
+        "😤 Hate it",
+        "🌊 Stay by the lake"
+      ]
+    };
+    // ============================================
+
+    // Get or create unique user ID for this browser
+    function getUserId() {
+      let userId = localStorage.getItem(`poll_user_${POLL_CONFIG.pollId}`);
+      if (!userId) {
+        userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        localStorage.setItem(`poll_user_${POLL_CONFIG.pollId}`, userId);
+      }
+      return userId;
+    }
+
+    // Check if user already voted
+    function hasVoted() {
+      return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`) !== null;
+    }
+
+    function getVotedOption() {
+      return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`);
+    }
+
+    function markAsVoted(optionIndex) {
+      localStorage.setItem(`poll_voted_${POLL_CONFIG.pollId}`, optionIndex);
+    }
+
+    // Show message to user
+    function showMessage(text, isError = false) {
+      const msg = document.getElementById('voteMessage');
+      msg.textContent = text;
+      msg.className = 'vote-message' + (isError ? ' error' : '') + ' show';
+      setTimeout(() => {
+        msg.classList.remove('show');
+      }, 3000);
+    }
+
+    // Fetch current results
+    async function fetchResults() {
+      try {
+        const response = await fetch(
+          `${POLL_CONFIG.workerUrl}/results?pollId=${POLL_CONFIG.pollId}`
+        );
+        if (!response.ok) throw new Error('Failed to fetch results');
+        return await response.json();
+      } catch (err) {
+        console.error('Error fetching results:', err);
+        return null;
+      }
+    }
+
+    // Submit vote
+    async function submitVote(optionIndex) {
+      try {
+        const response = await fetch(`${POLL_CONFIG.workerUrl}/vote`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pollId: POLL_CONFIG.pollId,
+            optionIndex: optionIndex,
+            userId: getUserId()
+          })
+        });
+
+        if (response.status === 409) {
+          const data = await response.json();
+          showMessage('You already voted! 💕', true);
+          markAsVoted(data.previousVote);
+          return false;
+        }
+
+        if (!response.ok) throw new Error('Vote failed');
+        
+        markAsVoted(optionIndex);
+        showMessage('Vote recorded! Thanks babes 💋');
+        return true;
+      } catch (err) {
+        console.error('Error voting:', err);
+        showMessage('Something went wrong, try again!', true);
+        return false;
+      }
+    }
+
+    // Render poll with results
+    function renderPoll(results) {
+      document.getElementById('pollTitle').textContent = POLL_CONFIG.title;
+      document.getElementById('pollDescription').textContent = POLL_CONFIG.description;
+
+      const total = results ? results.totalVotes : 0;
+      document.getElementById('totalVotes').textContent = total.toLocaleString();
+
+      const container = document.getElementById('pollOptions');
+      container.innerHTML = '';
+
+      const votedOption = hasVoted() ? parseInt(getVotedOption()) : null;
+
+      POLL_CONFIG.options.forEach((option, index) => {
+        const count = results && results.results[index] ? results.results[index] : 0;
+        const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+        const isVoted = votedOption === index;
+        const hasAnyVote = votedOption !== null;
+
+        const div = document.createElement('div');
+        div.className = 'poll-option' + (isVoted ? ' voted' : '') + (hasAnyVote ? ' disabled' : '');
+        
+        div.innerHTML = `
+          <div class="option-bar" style="width: ${percent}%"></div>
+          <div class="option-content">
+            <span class="option-text">${option}</span>
+            <span class="option-percent">${hasAnyVote ? percent + '%' : ''}</span>
+          </div>
+        `;
+
+        if (!hasAnyVote) {
+          div.addEventListener('click', async () => {
+            div.style.pointerEvents = 'none';
+            const success = await submitVote(index);
+            if (success || hasVoted()) {
+              const newResults = await fetchResults();
+              renderPoll(newResults);
+            } else {
+              div.style.pointerEvents = '';
+            }
+          });
+        }
+
+        container.appendChild(div);
+      });
+    }
+
+    // Initialize poll
+    async function init() {
+      const results = await fetchResults();
+      renderPoll(results);
+
+      // Refresh results every 10 seconds if user hasn't voted
+      setInterval(async () => {
+        if (!hasVoted()) {
+          const freshResults = await fetchResults();
+          renderPoll(freshResults);
+        }
+      }, 10000);
+    }
+
+    // Start
+    init();
+  </script>
+
+</body>
+</html>
