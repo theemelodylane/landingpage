@@ -447,13 +447,14 @@
         grid.appendChild(optionEl);
       });
 
+      // Load results first, then check if voted
+      await loadResultsDisplay();
+      
       // Check if already voted
       if (hasVoted()) {
         selectedOption = parseInt(getVotedOption());
         showResults();
       }
-
-      loadResultsDisplay();
     }
 
     function selectOption(index) {
@@ -486,7 +487,12 @@
 
     async function loadResultsDisplay() {
       const results = await fetchResults();
-      if (!results) return;
+      console.log('Results loaded:', results);
+      
+      if (!results || !results.results) {
+        console.log('No results data');
+        return;
+      }
 
       const total = results.totalVotes || 0;
       const votedOption = hasVoted() ? parseInt(getVotedOption()) : null;
@@ -496,8 +502,11 @@
 
       POLL_CONFIG.options.forEach((_, index) => {
         // Worker returns object with string keys, not array
-        const count = results.results && results.results[String(index)] ? results.results[String(index)] : 0;
+        const key = String(index);
+        const count = results.results[key] || 0;
         const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+        
+        console.log(`Option ${index}: count=${count}, percent=${percent}%`);
 
         document.getElementById(`percent-${index}`).textContent = percent + '%';
         document.getElementById(`count-${index}`).textContent = count.toLocaleString() + ' votes';
