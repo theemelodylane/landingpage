@@ -495,7 +495,8 @@
       document.getElementById('totalVotes').textContent = hasAnyVote ? total.toLocaleString() : '?';
 
       POLL_CONFIG.options.forEach((_, index) => {
-        const count = results.results && results.results[index] ? results.results[index] : 0;
+        // Worker returns object with string keys, not array
+        const count = results.results && results.results[String(index)] ? results.results[String(index)] : 0;
         const percent = total > 0 ? Math.round((count / total) * 100) : 0;
 
         document.getElementById(`percent-${index}`).textContent = percent + '%';
