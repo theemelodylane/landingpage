@@ -55,6 +55,7 @@
     .poll-option.voted { border-color: var(--accent-pink); cursor: default; }
     .poll-option.disabled { pointer-events: none; }
     .option-image { width: 100%; height: 250px; object-fit: cover; display: block; }
+    .option-image.scream-pic { object-position: top center; }
     .option-label {
       padding: 15px; text-align: center; font-weight: 600;
       color: var(--text-primary); background: rgba(0, 0, 0, 0.3);
@@ -168,8 +169,9 @@
         const isVoted = voted === i;
         const div = document.createElement('div');
         div.className = 'poll-option' + (isVoted ? ' voted' : '') + (hasAny ? ' disabled' : '');
+        const imgClass = opt.image.includes('scream') ? 'option-image scream-pic' : 'option-image';
         div.innerHTML = `
-          <img src="${opt.image}" class="option-image" onerror="this.style.display='none'">
+          <img src="${opt.image}" class="${imgClass}" onerror="this.style.display='none'">
           <div class="option-label">${opt.label}</div>
           <div class="option-bar" style="width: ${hasAny ? pct : 0}%"></div>
           <div class="option-percent">${hasAny ? pct + '%' : 'Vote!'}</div>
