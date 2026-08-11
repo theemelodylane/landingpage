@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌶️</text></svg>">
+  <title>Current Poll | Melody Lane</title>
+  <meta name="description" content="Vote in Melody Lane's current weekly poll.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-start: #130f1f;
+      --bg-mid: #19223a;
+      --bg-end: #0d3240;
+      --accent: #ff006e;
+      --accent-soft: #ff99c8;
+      --text: #ffffff;
+      --muted: #dedee8;
+      --panel: rgba(255, 255, 255, 0.07);
+      --line: rgba(255, 255, 255, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 12%, rgba(255, 0, 110, 0.22), transparent 34%),
+        radial-gradient(circle at 88% 20%, rgba(114, 232, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, var(--bg-start), var(--bg-mid) 52%, var(--bg-end));
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(560px, 100%);
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 9vw, 4rem);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    p {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 18px 40px rgba(255, 0, 110, 0.28);
+    }
+
+    .status {
+      min-height: 20px;
+      margin-top: 18px;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      color: var(--accent-soft);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="title">Current Poll</h1>
+    <p id="description">Loading Melody's latest poll...</p>
+    <a class="button" id="pollLink" href="poll-favorite-work-look.html">Vote Outfit Poll</a>
+    <p class="status" id="status">Taking you there now.</p>
+  </main>
+
+  <script>
+    const fallback = {
+      title: 'Favorite Work Look This Week',
+      description: 'Pick your favorite outfit and check back for the results.',
+      url: 'poll-favorite-work-look.html',
+      cta: 'Vote Outfit Poll'
+    };
+
+    const applyPoll = (poll) => {
+      const safePoll = { ...fallback, ...poll };
+      document.title = `${safePoll.title} | Melody Lane`;
+      document.getElementById('title').textContent = safePoll.title;
+      document.getElementById('description').textContent = safePoll.description;
+      const link = document.getElementById('pollLink');
+      link.href = safePoll.url;
+      link.textContent = safePoll.cta || 'Vote Now';
+      window.setTimeout(() => {
+        window.location.href = safePoll.url;
+      }, 700);
+    };
+
+    fetch('current-poll.json', { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error('Current poll unavailable');
+        return response.json();
+      })
+      .then(applyPoll)
+      .catch(() => {
+        document.getElementById('status').textContent = 'Opening the latest poll.';
+        applyPoll(fallback);
+      });
+  </script>
+</body>
+</html>

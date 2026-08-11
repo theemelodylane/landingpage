@@ -104,6 +104,25 @@ export default {
 
 ## 🚀 How to Create a New Poll
 
+### Current Poll Switchboard
+
+- Public URL: `https://theemelodylane.com/poll-current.html`
+- Active poll config: `current-poll.json`
+- Homepage, links page, and Telegram bot should point to `poll-current.html`.
+- To rotate the weekly poll, update only `current-poll.json` after the new poll page exists.
+
+Example:
+
+```json
+{
+  "title": "Favorite Work Look This Week",
+  "description": "Pick your favorite outfit and check back for the results.",
+  "url": "poll-favorite-work-look.html",
+  "pollId": "favorite-work-look-001",
+  "cta": "Vote Outfit Poll"
+}
+```
+
 ### Quick Method (30 seconds)
 
 1. **Copy an existing poll file:**
@@ -126,10 +145,7 @@ export default {
    };
    ```
 
-3. **Add link to homepage (index.html):**
-   ```html
-   <a href="poll-NEWNAME.html" class="cta-button cta-secondary">🎯 Poll Title</a>
-   ```
+3. **Make it the current poll by editing `current-poll.json`.**
 
 4. **Commit and push:**
    ```bash
