@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏈</text></svg>">
-  <title>Browns QB Start | Melody Lane</title>
-  <meta name="description" content="Preseason: Bills 31, Browns 7. Who should start at QB vs the Patriots Thursday — Sanders or Watson? Vote, then join private updates on Telegram.">
+  <title>Who starts Thursday? | Melody Lane</title>
+  <meta name="description" content="Preseason. Bills hung 31 on us. Patriots next. You pick.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -80,8 +80,8 @@
     <a class="back" href="index.html">Home</a>
     <div class="hero">
       <p class="kicker">Preseason · next up Patriots · Thu Aug 27 · 8pm ET</p>
-      <h1>Who starts at QB vs New England?</h1>
-      <p class="lede">Preseason scoreboard said Bills 31, Browns 7. Shake it off. Thursday night is Patriots, 8pm ET. Sanders or Watson — who should take the first snap?</p>
+      <h1>Who starts Thursday?</h1>
+      <p class="lede">Preseason. Bills hung 31 on us. Patriots next. You pick.</p>
       <p class="rule">Digital only.</p>
     </div>
     <div class="grid" id="pollOptions"></div>
@@ -128,6 +128,12 @@
       const voted = hasVoted() ? parseInt(getVotedOption()) : null;
       const hasAny = voted !== null;
       document.getElementById('totalVotes').textContent = hasAny ? total.toLocaleString() : '?';
+      const ctaTitle = document.querySelector('.cta h2');
+      const ctaP = document.querySelector('.cta p');
+      if (hasAny && ctaTitle && ctaP) {
+        ctaTitle.textContent = 'Voted.';
+        ctaP.textContent = 'Telegram if you want to fight about it.';
+      }
       const container = document.getElementById('pollOptions');
       container.innerHTML = '';
       POLL_CONFIG.options.forEach((opt, i) => {
