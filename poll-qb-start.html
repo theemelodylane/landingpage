@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏈</text></svg>">
+  <title>Browns QB Start | Melody Lane</title>
+  <meta name="description" content="Cleveland, pick it: who should start at QB for the Browns, Sanders or Watson? Vote, then join private updates on Telegram.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown: #311d00;
+      --brown-deep: #1a1006;
+      --orange: #ff3c00;
+      --orange-soft: #ff7a3d;
+      --stripe: #ffd166;
+      --text: #ffffff;
+      --muted: #f0e6d8;
+      --panel: rgba(255, 255, 255, 0.07);
+      --line: rgba(255, 211, 102, 0.28);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        repeating-linear-gradient(90deg, rgba(255,60,0,0.08) 0 12px, transparent 12px 28px),
+        radial-gradient(circle at 16% 0%, rgba(255, 60, 0, 0.34), transparent 34%),
+        radial-gradient(circle at 92% 8%, rgba(255, 209, 102, 0.16), transparent 26%),
+        linear-gradient(160deg, var(--brown-deep), var(--brown) 55%, #3a2208);
+      line-height: 1.55;
+    }
+    .wrap { width: min(860px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 48px; }
+    .back { color: var(--orange-soft); text-decoration: none; font-weight: 700; }
+    .back::before { content: '← '; }
+    .hero { text-align: center; padding: 28px 0 10px; }
+    .kicker { color: var(--stripe); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.3rem, 8vw, 4.4rem); line-height: 0.92; margin: 12px 0 14px; }
+    .lede { color: var(--muted); max-width: 620px; margin: 0 auto 10px; font-size: 1.05rem; }
+    .rule { color: var(--orange-soft); font-size: 0.92rem; font-weight: 700; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 26px 0 16px; }
+    .opt {
+      position: relative; overflow: hidden; border-radius: 18px; border: 2px solid var(--line);
+      background: var(--panel); cursor: pointer; min-height: 210px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 28px 16px 32px; text-align: center;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .opt:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 16px 40px rgba(255, 60, 0, 0.28); }
+    .opt.voted { border-color: var(--stripe); }
+    .opt.disabled { pointer-events: none; }
+    .num { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stripe); margin-bottom: 8px; }
+    .label { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 700; line-height: 1; }
+    .sub { margin-top: 8px; color: var(--muted); font-weight: 600; }
+    .opt .pct {
+      position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.72);
+      color: var(--stripe); padding: 5px 10px; border-radius: 999px; font-weight: 800; font-size: 0.88rem;
+    }
+    .opt .bar { position: absolute; left: 0; bottom: 0; height: 8px; background: var(--orange); }
+    .totals { text-align: center; color: var(--muted); margin-bottom: 22px; }
+    .totals span { color: var(--orange-soft); font-weight: 800; }
+    .cta {
+      text-align: center; padding: 28px 22px; border: 1px solid var(--line);
+      border-radius: 18px; background: var(--panel);
+    }
+    .cta h2 { font-family: 'Playfair Display', serif; color: var(--stripe); margin-bottom: 8px; }
+    .cta p { color: var(--muted); margin-bottom: 16px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 52px;
+      padding: 12px 22px; border-radius: 999px; text-decoration: none; font-weight: 800;
+      background: linear-gradient(135deg, var(--orange), #ff6a2b); color: white;
+      box-shadow: 0 12px 30px rgba(255, 60, 0, 0.32);
+    }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">Home</a>
+    <div class="hero">
+      <p class="kicker">Cleveland · Dawg Pound energy</p>
+      <h1>Who starts at QB?</h1>
+      <p class="lede">Sanders or Watson. One snap. One starter. Cleveland is already yelling — put it on the board.</p>
+      <p class="rule">Digital only. I don't meet fans.</p>
+    </div>
+    <div class="grid" id="pollOptions"></div>
+    <p class="totals">Votes so far: <span id="totalVotes">?</span></p>
+    <div class="cta">
+      <h2>Join Private Updates</h2>
+      <p>Vote, then hop Telegram for the tally, the next poll, and private updates. That is the list.</p>
+      <a class="btn" href="https://t.me/theemelodylanebot?start=poll_qb_start" target="_blank" rel="noopener">Get it on Telegram</a>
+    </div>
+  </div>
+  <script>
+    const POLL_CONFIG = {
+      workerUrl: "https://api.theemelodylane.com",
+      pollId: "browns-qb-start-20260822",
+      options: [
+        { label: "Sanders", sub: "Shedeur. Fresh start. Dawg it." },
+        { label: "Watson", sub: "Deshaun. Veteran snap. Ride it." }
+      ]
+    };
+    function getUserId() {
+      let id = localStorage.getItem(`poll_user_${POLL_CONFIG.pollId}`);
+      if (!id) { id = 'user_' + Math.random().toString(36).substr(2, 9); localStorage.setItem(`poll_user_${POLL_CONFIG.pollId}`, id); }
+      return id;
+    }
+    function hasVoted() { return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`) !== null; }
+    function getVotedOption() { return localStorage.getItem(`poll_voted_${POLL_CONFIG.pollId}`); }
+    function markAsVoted(i) { localStorage.setItem(`poll_voted_${POLL_CONFIG.pollId}`, i); }
+    async function fetchResults() {
+      try { const r = await fetch(`${POLL_CONFIG.workerUrl}/results?pollId=${POLL_CONFIG.pollId}`); if (!r.ok) throw new Error(); return await r.json(); } catch(e) { return null; }
+    }
+    async function submitVote(i) {
+      try {
+        const r = await fetch(`${POLL_CONFIG.workerUrl}/vote`, {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ pollId: POLL_CONFIG.pollId, optionIndex: i, userId: getUserId() })
+        });
+        if (r.status === 409) { const d = await r.json(); markAsVoted(d.previousVote); return false; }
+        if (!r.ok) throw new Error();
+        markAsVoted(i); return true;
+      } catch(e) { return false; }
+    }
+    async function renderPoll(results) {
+      const total = results ? results.totalVotes : 0;
+      const voted = hasVoted() ? parseInt(getVotedOption()) : null;
+      const hasAny = voted !== null;
+      document.getElementById('totalVotes').textContent = hasAny ? total.toLocaleString() : '?';
+      const container = document.getElementById('pollOptions');
+      container.innerHTML = '';
+      POLL_CONFIG.options.forEach((opt, i) => {
+        const count = results && results.results[i] ? results.results[i] : 0;
+        const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+        const isVoted = voted === i;
+        const div = document.createElement('div');
+        div.className = 'opt' + (isVoted ? ' voted' : '') + (hasAny ? ' disabled' : '');
+        div.innerHTML = `
+          <div class="num">Option ${i + 1}</div>
+          <div class="label">${opt.label}</div>
+          <div class="sub">${opt.sub}</div>
+          <div class="bar" style="width:${hasAny ? pct : 0}%"></div>
+          <div class="pct">${hasAny ? pct + '%' : 'Tap to vote'}</div>
+        `;
+        if (!hasAny) {
+          div.addEventListener('click', async () => {
+            div.style.pointerEvents = 'none';
+            const ok = await submitVote(i);
+            if (ok) setTimeout(() => location.reload(), 400);
+            else if (hasVoted()) location.reload();
+            else div.style.pointerEvents = '';
+          });
+        }
+        container.appendChild(div);
+      });
+    }
+    async function init() {
+      renderPoll(await fetchResults());
+      setInterval(async () => { if (!hasVoted()) renderPoll(await fetchResults()); }, 10000);
+    }
+    init();
+  </script>
+</body>
+</html>
