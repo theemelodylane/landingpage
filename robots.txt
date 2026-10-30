@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /members.html
+Disallow: /template.html
+
+Sitemap: https://theemelodylane.com/sitemap.xml
