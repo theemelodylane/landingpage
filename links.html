@@ -143,29 +143,39 @@
     }
 
     .hint a { color: var(--accent-soft); }
+
+    .sub {
+      margin: -4px 0 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="profile">
       <div class="avatar">
-        <img src="images/melody-profile.jpg" alt="Melody Lane">
+        <img src="images/melody-profile-640.jpg" alt="Melody Lane" width="640" height="800">
       </div>
       <h1>Melody Lane</h1>
-      <p class="bio">Horror, Cleveland sports, music moods, weekly polls, and private updates.</p>
+      <p class="bio">Cleveland girl 💋 Horror, Browns &amp; Guardians, and a lot of looks. The ones I don't post on Instagram go to my Telegram first.</p>
     </section>
 
     <section class="links" aria-label="Melody Lane links">
-      <a class="link primary" href="https://t.me/theemelodylanebot?start=links_private_updates" target="_blank" rel="noopener">
-        <span>Join Private Updates</span>
-        <span>Telegram</span>
+      <a class="link primary" href="https://t.me/theemelodylanebot?start=links_top" target="_blank" rel="noopener">
+        <span>💌 Get my private updates</span>
+        <span>Free</span>
       </a>
+      <p class="sub">New drops first, pics I don't post here, and poll results. Telegram · 18+</p>
       <a class="link" href="poll-current.html">
-        <span>Vote Current Poll</span>
-        <span>Poll</span>
+        <span id="pollTitle">🗳️ Vote in my poll</span>
+        <span>Vote</span>
       </a>
       <a class="link" href="index.html">
-        <span>Visit The Site</span>
+        <span>My website</span>
         <span>Home</span>
       </a>
       <a class="link" href="https://www.instagram.com/theemelodylane/" target="_blank" rel="noopener">
@@ -182,7 +192,14 @@
       </a>
     </section>
 
-    <p class="hint">Instagram-safe page. Private updates are on Telegram. Digital only.</p>
+    <p class="hint">© 2026 Melody Lane · Cleveland, Ohio</p>
   </main>
+  <script>
+    // Name the live poll on its button.
+    fetch('current-poll.json', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((poll) => { if (poll.title) document.getElementById('pollTitle').textContent = '🗳️ ' + poll.title; })
+      .catch(() => {});
+  </script>
 </body>
 </html>

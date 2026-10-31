@@ -24,6 +24,7 @@
   <meta name="twitter:site" content="@Theemelodylane">
   <meta name="twitter:creator" content="@Theemelodylane">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://theemelodylane.com/#website", "url": "https://theemelodylane.com/", "name": "Melody Lane", "alternateName": ["Thee Melody Lane", "theemelodylane"], "publisher": {"@id": "https://theemelodylane.com/#person"}}, {"@type": "Person", "@id": "https://theemelodylane.com/#person", "name": "Melody Lane", "alternateName": "Thee Melody Lane", "url": "https://theemelodylane.com/", "image": "https://theemelodylane.com/images/melody-profile.jpg", "description": "Cleveland creator sharing horror movie picks, Browns and Guardians game-day takes, music, and weekly fan polls.", "homeLocation": {"@type": "Place", "name": "Cleveland, Ohio"}, "knowsAbout": ["Horror movies", "Cleveland Browns", "Cleveland Guardians", "Music"], "sameAs": ["https://www.instagram.com/theemelodylane/", "https://x.com/Theemelodylane", "https://www.threads.com/@theemelodylane"]}]}</script>
+  <link rel="preload" as="image" href="images/melody-profile-640.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -53,10 +54,12 @@
         radial-gradient(circle at 20% 12%, rgba(255, 0, 110, 0.22), transparent 34%),
         radial-gradient(circle at 88% 20%, rgba(114, 232, 255, 0.16), transparent 28%),
         linear-gradient(135deg, var(--bg-start), var(--bg-mid) 52%, var(--bg-end));
+      background-color: var(--bg-start);
       line-height: 1.6;
     }
 
     a { color: inherit; }
+    a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 
     .page {
       width: min(1080px, calc(100% - 32px));
@@ -64,9 +67,9 @@
     }
 
     .hero {
-      min-height: 92vh;
+      min-height: 88vh;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-columns: minmax(0, 1fr) 340px;
       gap: 44px;
       align-items: center;
       padding: 42px 0 28px;
@@ -93,7 +96,6 @@
     .eyebrow {
       color: var(--accent-soft);
       font-weight: 700;
-      letter-spacing: 0;
       margin-bottom: 12px;
     }
 
@@ -106,25 +108,27 @@
     }
 
     .lede {
-      max-width: 640px;
+      max-width: 600px;
       color: var(--muted);
       font-size: clamp(1.05rem, 2.4vw, 1.3rem);
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
 
-    .actions, .link-stack {
+    .lede b { color: var(--text); }
+
+    .actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
     }
 
     .button {
-      min-height: 52px;
+      min-height: 54px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 14px 22px;
+      padding: 14px 24px;
       border-radius: 999px;
       border: 1px solid var(--line);
       background: var(--panel);
@@ -141,12 +145,32 @@
 
     .button.primary {
       border: none;
+      font-size: 1.08rem;
       background: linear-gradient(135deg, var(--accent), #ff4081);
       box-shadow: 0 12px 34px rgba(255, 0, 110, 0.34);
     }
 
-    .button.gold {
-      border-color: rgba(255, 209, 102, 0.45);
+    .microcopy {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      opacity: 0.85;
+    }
+
+    .proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 26px;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .proof b {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      line-height: 1.1;
       color: var(--gold);
     }
 
@@ -158,102 +182,192 @@
     .section h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 18px;
+      line-height: 1.1;
+      margin-bottom: 14px;
       color: var(--accent-soft);
     }
 
     .section-copy {
-      max-width: 720px;
+      max-width: 680px;
       color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 26px;
       font-size: 1.06rem;
     }
 
-    .card-grid {
+    .perks {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .perk {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+    }
+
+    .perk .icon { font-size: 1.6rem; line-height: 1; margin-bottom: 12px; }
+    .perk h3 { font-size: 1.02rem; margin-bottom: 6px; }
+    .perk p { color: var(--muted); font-size: 0.94rem; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .poll-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      padding: 26px 28px;
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.1), rgba(255, 255, 255, 0.04));
+      text-decoration: none;
+    }
+
+    .poll-card .kicker {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .poll-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      line-height: 1.15;
+      margin: 6px 0 8px;
+    }
+
+    .poll-card p { color: var(--muted); }
+
+    .poll-card .button { border-color: rgba(255, 209, 102, 0.5); color: var(--gold); white-space: nowrap; }
+
+    .about {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .card {
-      min-height: 168px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .about div {
       padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
+      border-left: 3px solid var(--accent);
       background: var(--panel);
-      text-decoration: none;
+      border-radius: 0 12px 12px 0;
     }
 
-    .card h3 {
-      font-size: 1.02rem;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .card .tag {
-      color: var(--cyan);
-      font-size: 0.84rem;
-      font-weight: 700;
-      margin-top: 18px;
-    }
+    .about h3 { font-size: 1.02rem; margin-bottom: 6px; }
+    .about p { color: var(--muted); font-size: 0.95rem; }
 
     .social-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
     }
 
     .social-card {
-      min-height: 112px;
       padding: 18px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 12px;
       background: var(--panel);
       text-decoration: none;
+      transition: border-color 160ms ease, background 160ms ease;
     }
 
+    .social-card:hover { border-color: rgba(255, 255, 255, 0.35); background: var(--panel-strong); }
     .social-name { font-weight: 700; }
     .social-handle { color: var(--accent-soft); font-size: 0.9rem; margin-top: 4px; overflow-wrap: anywhere; }
 
-    .notice {
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-top: 18px;
+    .closer {
+      text-align: center;
+      padding: 64px 0;
+      border-top: 1px solid var(--line);
     }
 
+    .closer h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .closer p { color: var(--muted); margin-bottom: 24px; }
+
     footer {
-      padding: 32px 0 46px;
+      padding: 28px 0 46px;
       color: var(--muted);
       border-top: 1px solid var(--line);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     footer a { color: var(--accent-soft); }
+
+    .sticky-cta {
+      display: none;
+    }
 
     @media (max-width: 820px) {
       .hero {
         grid-template-columns: 1fr;
         min-height: auto;
+        gap: 26px;
         padding-top: 28px;
       }
 
       .portrait {
-        width: min(280px, 75vw);
+        width: min(240px, 64vw);
         grid-row: 1;
         justify-self: center;
       }
 
       .hero-copy { text-align: center; }
-      .actions { justify-content: center; }
-      .card-grid, .social-grid { grid-template-columns: 1fr; }
+      .actions, .proof { justify-content: center; }
       .button { width: 100%; }
+      .perks { grid-template-columns: 1fr 1fr; }
+      .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .poll-card, .about, .social-grid { grid-template-columns: 1fr; }
+      .section { padding: 42px 0; }
+
+      .sticky-cta {
+        display: block;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        z-index: 10;
+        transform: translateY(140%);
+        transition: transform 220ms ease;
+      }
+
+      .sticky-cta.show { transform: none; }
+      body { padding-bottom: 84px; }
+    }
+
+    @media (max-width: 420px) {
+      .perks { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .button, .sticky-cta { transition: none; }
     }
   </style>
 </head>
@@ -263,47 +377,71 @@
       <div class="hero-copy">
         <p class="eyebrow">Cleveland born. Horror loyal. Sports loud.</p>
         <h1>Melody Lane</h1>
-        <p class="lede">Horror picks, game-day takes, music moods, weekly polls, and private updates for people who like being early.</p>
+        <p class="lede">Hey, I'm Melody 💋 Horror nights, Browns and Guardians game days, and a whole lot of looks. <b>The good stuff I don't post on Instagram goes to my Telegram first.</b></p>
         <div class="actions">
-          <a class="button primary" href="https://t.me/theemelodylanebot?start=home_private_list" target="_blank" rel="noopener">Join Private Updates</a>
-          <a class="button" href="poll-current.html">Vote Current Poll</a>
+          <a class="button primary" id="heroCta" href="https://t.me/theemelodylanebot?start=home_hero" target="_blank" rel="noopener">💌 Get my private updates</a>
+          <a class="button" href="poll-current.html">🗳️ Vote in my poll</a>
+        </div>
+        <p class="microcopy">Free on Telegram · one tap to join · 18+ only</p>
+        <div class="proof" aria-label="Followers">
+          <span><b>11K+</b>on Instagram</span>
+          <span><b>5K+</b>on X</span>
+          <span><b>Weekly</b>fan polls</span>
         </div>
       </div>
       <div class="portrait">
-        <img src="images/melody-profile.jpg" alt="Melody Lane, Cleveland horror and sports creator" width="1080" height="1350" fetchpriority="high">
+        <img src="images/melody-profile-640.jpg" alt="Melody Lane, Cleveland horror and sports creator" width="640" height="800" fetchpriority="high">
       </div>
     </section>
 
     <section class="section">
-      <h2>Start Here</h2>
-      <p class="section-copy">The public feed stays safe for the big platforms. The private list is where poll results, drop alerts, behind-the-scenes updates, and member routing happen first.</p>
-      <div class="card-grid">
-        <a class="card" href="poll-current.html">
-          <span>
-            <h3>Current Poll</h3>
-            <p>Vote on the latest look, horror pick, or weekly question and check back for the results.</p>
-          </span>
-          <span class="tag">Vote now</span>
-        </a>
-        <a class="card" href="https://t.me/theemelodylanebot?start=home_telegram" target="_blank" rel="noopener">
-          <span>
-            <h3>Private Updates</h3>
-            <p>Telegram is the warm list for updates, reminders, and direct routing.</p>
-          </span>
-          <span class="tag">Open Telegram</span>
-        </a>
-        <a class="card" href="https://t.me/theemelodylanebot?start=home_digital_only" target="_blank" rel="noopener">
-          <span>
-            <h3>Digital Only</h3>
-            <p>Vote, then get the winner and private updates on Telegram.</p>
-          </span>
-          <span class="tag">Digital only</span>
-        </a>
+      <h2>What you get on my Telegram</h2>
+      <p class="section-copy">It's my private list. Tap the button, hit Start, and you're in. No app store hunt, no sign-up form.</p>
+      <div class="perks">
+        <div class="perk"><div class="icon">🔥</div><h3>New drops first</h3><p>You hear about new sets and videos before anyone else.</p></div>
+        <div class="perk"><div class="icon">📸</div><h3>Pics you won't see here</h3><p>The looks that are a little too much for Instagram.</p></div>
+        <div class="perk"><div class="icon">🗳️</div><h3>You pick what's next</h3><p>Vote on my outfits and themes, then get the results first.</p></div>
+        <div class="perk"><div class="icon">💬</div><h3>Say hi anytime</h3><p>Ask me anything, or just talk horror and Cleveland sports.</p></div>
+      </div>
+      <a class="button primary" href="https://t.me/theemelodylanebot?start=home_perks" target="_blank" rel="noopener">💌 Join free on Telegram</a>
+    </section>
+
+    <section class="section">
+      <h2>Recent looks</h2>
+      <p class="section-copy">Game days, office days, and everything in between. You voted on most of these.</p>
+      <div class="gallery">
+        <img src="images/thumbs/look1.jpg" alt="Melody in a striped sweater" width="480" height="600" loading="lazy" decoding="async">
+        <img src="images/thumbs/guardians-1.jpg" alt="Melody in a Guardians jersey" width="480" height="600" loading="lazy" decoding="async">
+        <img src="images/thumbs/work-look-2.jpg" alt="Melody's denim jacket work look" width="480" height="600" loading="lazy" decoding="async">
+        <img src="images/thumbs/look2.jpg" alt="Melody in a ribbed knit set" width="480" height="600" loading="lazy" decoding="async">
+        <img src="images/thumbs/browns-jersey-2.jpg" alt="Melody in a Cleveland Browns shirt" width="480" height="600" loading="lazy" decoding="async">
+        <img src="images/thumbs/work-look-3.jpg" alt="Melody's brown dress work look" width="480" height="600" loading="lazy" decoding="async">
+      </div>
+      <a class="button" href="https://t.me/theemelodylanebot?start=home_gallery" target="_blank" rel="noopener">See the ones I didn't post here →</a>
+    </section>
+
+    <section class="section">
+      <a class="poll-card" href="poll-current.html">
+        <span>
+          <span class="kicker">This week's poll</span>
+          <h3 id="pollTitle">Vote in my current poll</h3>
+          <p id="pollDesc">Horror picks, game-day calls, and looks. You decide.</p>
+        </span>
+        <span class="button" id="pollCta">Vote now</span>
+      </a>
+    </section>
+
+    <section class="section">
+      <h2>About me</h2>
+      <div class="about">
+        <div><h3>🎃 Horror loyal</h3><p>Scream and Saw forever. I'll take a slasher over a rom-com any night.</p></div>
+        <div><h3>🏈 Cleveland sports</h3><p>Browns Sundays, Guardians summers, and strong opinions about both.</p></div>
+        <div><h3>🎶 Music moods</h3><p>A playlist for every look. Ask me what's on repeat.</p></div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Find Me</h2>
+      <h2>Follow me</h2>
       <div class="social-grid">
         <a href="https://www.instagram.com/theemelodylane/" class="social-card" target="_blank" rel="noopener">
           <div class="social-name">Instagram</div>
@@ -317,16 +455,40 @@
           <div class="social-name">Threads</div>
           <div class="social-handle">@theemelodylane</div>
         </a>
-        <a href="links.html" class="social-card">
-          <div class="social-name">Bio Links</div>
-          <div class="social-handle">SFW routing page</div>
-        </a>
       </div>
-          </section>
+    </section>
+
+    <section class="closer">
+      <h2>Come say hi 💋</h2>
+      <p>Free to join. New drops, private pics, and poll results land there first.</p>
+      <a class="button primary" href="https://t.me/theemelodylanebot?start=home_footer" target="_blank" rel="noopener">💌 Open my Telegram</a>
+    </section>
   </main>
 
+  <a class="button primary sticky-cta" id="stickyCta" href="https://t.me/theemelodylanebot?start=home_sticky" target="_blank" rel="noopener">💌 Get my private updates</a>
+
   <footer class="page">
-    <p>© 2026 Melody Lane. Public pages are SFW. Private updates live on Telegram.</p>
+    <p>© 2026 Melody Lane · Cleveland, Ohio · <a href="links.html">All my links</a></p>
   </footer>
+
+  <script>
+    // Show the current poll's real title, from the same file poll-current.html uses.
+    fetch('current-poll.json', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((poll) => {
+        if (poll.title) document.getElementById('pollTitle').textContent = poll.title;
+        if (poll.description) document.getElementById('pollDesc').textContent = poll.description;
+        if (poll.cta) document.getElementById('pollCta').textContent = poll.cta;
+      })
+      .catch(() => {});
+
+    // On phones, show a sticky Telegram button once the hero button scrolls away.
+    const sticky = document.getElementById('stickyCta');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        sticky.classList.toggle('show', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+      }).observe(document.getElementById('heroCta'));
+    }
+  </script>
 </body>
 </html>
