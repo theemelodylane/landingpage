@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#1a1006">
+  <title>Melody's Game Day: Cleveland Sports Recaps | Melody Lane</title>
+  <meta name="description" content="Melody Lane&#x27;s Cleveland game-day posts: Browns, Cavs, and Guardians recaps with what my fans predicted and how it played out.">
+  <link rel="canonical" href="https://theemelodylane.com/game-day.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Melody Lane">
+  <meta property="og:url" content="https://theemelodylane.com/game-day.html">
+  <meta property="og:title" content="Melody's Game Day: Cleveland Sports Recaps">
+  <meta property="og:description" content="Melody Lane&#x27;s Cleveland game-day posts: Browns, Cavs, and Guardians recaps with what my fans predicted and how it played out.">
+  <meta property="og:image" content="https://theemelodylane.com/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Theemelodylane">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --brown:#311d00; --brown-deep:#1a1006; --orange:#ff3c00; --orange-soft:#ff7a3d; --stripe:#ffd166;
+      --text:#fff; --muted:#f0e6d8; --panel:rgba(255,255,255,.07); --line:rgba(255,211,102,.28); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { min-height:100vh; font-family:'Inter',sans-serif; color:var(--text); line-height:1.65;
+      background:repeating-linear-gradient(90deg,rgba(255,60,0,.08) 0 12px,transparent 12px 28px),
+        radial-gradient(circle at 16% 0%,rgba(255,60,0,.34),transparent 34%),
+        linear-gradient(160deg,var(--brown-deep),var(--brown) 55%,#3a2208);
+      background-color:var(--brown-deep); }
+    .wrap { width:min(760px,calc(100% - 32px)); margin:0 auto; padding:28px 0 56px; }
+    nav a { color:var(--orange-soft); text-decoration:none; font-weight:700; margin-right:18px; }
+    header { padding:30px 0 8px; }
+    .kicker { color:var(--stripe); font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; }
+    h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,6.5vw,3.3rem); line-height:1.02; margin:10px 0 10px; }
+    .meta { color:var(--muted); font-size:.92rem; }
+    h2 { font-family:'Playfair Display',serif; color:var(--stripe); font-size:1.6rem; margin:34px 0 12px; }
+    p { color:var(--muted); margin-bottom:14px; font-size:1.06rem; }
+    .score { display:flex; justify-content:center; align-items:center; gap:18px; margin:24px 0 6px; padding:22px;
+      border:1px solid var(--line); border-radius:18px; background:var(--panel); text-align:center; }
+    .score .team { font-weight:800; font-size:1.05rem; } .score .pts { font-family:'Playfair Display',serif; font-size:3rem; line-height:1; }
+    .score .win .pts { color:var(--stripe); } .score .dash { color:var(--muted); font-size:2rem; }
+    .final { text-align:center; color:var(--orange-soft); font-weight:800; letter-spacing:.06em; font-size:.8rem; text-transform:uppercase; }
+    .bars { list-style:none; display:grid; gap:10px; margin:6px 0 10px; }
+    .bars li { position:relative; overflow:hidden; border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:12px 16px; }
+    .bars li.hit { border-color:var(--stripe); }
+    .bars .fill { position:absolute; inset:0 auto 0 0; background:rgba(255,60,0,.28); }
+    .bars .row { position:relative; display:flex; justify-content:space-between; gap:12px; font-weight:700; }
+    .bars .tag { color:var(--stripe); font-size:.8rem; margin-left:8px; }
+    .note { font-size:.9rem; }
+    .cta { text-align:center; padding:26px 20px; border:1px solid var(--line); border-radius:18px; background:var(--panel); margin-top:34px; }
+    .cta h2 { margin-top:0; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:50px; padding:12px 22px; margin:6px;
+      border-radius:999px; text-decoration:none; font-weight:800; background:linear-gradient(135deg,var(--orange),#ff6a2b); color:#fff; }
+    .btn.ghost { background:transparent; border:2px solid var(--line); }
+    .posts { list-style:none; display:grid; gap:14px; margin-top:20px; }
+    .posts a { display:block; padding:18px 20px; border:1px solid var(--line); border-radius:16px; background:var(--panel); color:var(--text); text-decoration:none; }
+    .posts a:hover { border-color:var(--orange); }
+    .posts b { font-family:'Playfair Display',serif; font-size:1.3rem; display:block; margin:4px 0; }
+    .posts span { color:var(--muted); font-size:.95rem; }
+    footer { margin-top:40px; color:var(--muted); font-size:.85rem; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav><a href="index.html">Home</a><a href="game-day.html">Game Day</a><a href="poll-current.html">Current poll</a></nav>
+    <header>
+      <p class="kicker">Cleveland born and raised</p>
+      <h1>Melody's Game Day</h1>
+      <p>Every week my fans make their call in my poll. After the game, I post what you predicted, what actually happened, and my take.</p>
+    </header>
+    <ul class="posts">
+      <li><a href="browns-steelers-2026-recap.html"><span class="kicker">NFL Week 8 · Browns at Steelers</span><b>Browns at Steelers: What You Called vs. What Happened</b><span>November 1, 2026 · Steelers 27, Browns 6. Nobody called it.</span></a></li>
+    </ul>
+    <div class="cta">
+      <h2>Make this week's call</h2>
+      <a class="btn" href="poll-current.html">🗳️ Vote in my poll</a>
+      <a class="btn ghost" href="https://t.me/theemelodylanebot?start=gameday_hub" target="_blank" rel="noopener">💌 Get my private updates</a>
+    </div>
+    <footer>Melody Lane · Cleveland born and raised · 18+ only on Telegram</footer>
+  </div>
+</body>
+</html>
